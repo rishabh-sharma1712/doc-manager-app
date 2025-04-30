@@ -6,7 +6,7 @@ A modern document management system built with Next.js, React, and TypeScript. T
 
 - **User Authentication**: Secure login and registration system with role-based access control
 - **Role-Based Permissions**: Different access levels for admins, editors, and viewers
-- **Document Management**: Create, read, update, and delete documents
+- **Document Management**: Upload, Create, read, update, and delete documents
 - **Responsive Design**: Works on desktop and mobile devices
 - **Search Functionality**: Search documents by title, content, or user
 
@@ -27,7 +27,7 @@ A modern document management system built with Next.js, React, and TypeScript. T
 
 1. Clone the repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/doc-manager-app.git
+https://github.com/rishabh-sharma1712/doc-manager-app.git
 cd doc-manager-app
 ```
 
@@ -71,7 +71,6 @@ yarn dev
 
 This project is currently in development with mock API responses. Future updates will include:
 - Real backend integration
-- File upload functionality
 - Advanced search and filtering
 - User management dashboard
 - Document version history
