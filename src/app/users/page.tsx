@@ -75,16 +75,44 @@ export default function UsersPage() {
     setEditingUserId(null);
   };
 
-  const getRoleBadgeClass = (role: Role) => {
-    switch (role) {
-      case 'admin':
-        return 'bg-purple-100 text-purple-800';
-      case 'editor':
-        return 'bg-blue-100 text-blue-800';
-      case 'viewer':
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
+  // Custom role badge component to avoid CSS conflicts
+  const RoleBadge = ({ role }: { role: Role }) => {
+    const getStyle = () => {
+      const baseStyle = {
+        padding: '0.25rem 0.5rem',
+        borderRadius: '9999px',
+        fontWeight: '600',
+        fontSize: '0.75rem',
+        lineHeight: '1.25rem',
+        display: 'inline-block',
+        color: '#ffffff'
+      };
+
+      switch (role) {
+        case 'admin':
+          return { 
+            ...baseStyle,
+            backgroundColor: '#9333ea'
+          };
+        case 'editor':
+          return { 
+            ...baseStyle,
+            backgroundColor: '#2563eb'
+          };
+        case 'viewer':
+        default:
+          return { 
+            ...baseStyle,
+            backgroundColor: '#4b5563'
+          };
+      }
+    };
+
+    return (
+      <div style={getStyle()}>
+        {role.charAt(0).toUpperCase() + role.slice(1)}
+      </div>
+    );
   };
 
   if (authLoading) {
@@ -134,12 +162,12 @@ export default function UsersPage() {
           <p className="mt-4 text-gray-600">Loading users...</p>
         </div>
       ) : filteredUsers.length === 0 ? (
-        <div className="text-center py-12 bg-white rounded-lg shadow">
-          <div className="mx-auto h-24 w-24 text-gray-400">
+        <div className="text-center py-12 rounded-lg shadow" style={{ backgroundColor: 'var(--card-bg)' }}>
+          <div className="mx-auto h-24 w-24" style={{ color: 'var(--muted-text)' }}>
             <FiUser className="h-full w-full" />
           </div>
-          <h3 className="mt-2 text-lg font-medium text-gray-900">No users found</h3>
-          <p className="mt-1 text-gray-500">
+          <h3 className="mt-2 text-lg font-medium" style={{ color: 'var(--primary-text)' }}>No users found</h3>
+          <p className="mt-1" style={{ color: 'var(--secondary-text)' }}>
             {searchQuery
               ? `No users matching "${searchQuery}"`
               : 'There are no users registered in the system'}
@@ -148,67 +176,74 @@ export default function UsersPage() {
       ) : (
         <Card>
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-gray-200" style={{ borderColor: 'var(--border-color)' }}>
+              <thead style={{ backgroundColor: 'var(--card-bg)' }}>
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+                    style={{ color: 'var(--muted-text)' }}
                   >
                     User
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+                    style={{ color: 'var(--muted-text)' }}
                   >
                     Email
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+                    style={{ color: 'var(--muted-text)' }}
                   >
                     Role
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider"
+                    style={{ color: 'var(--muted-text)' }}
                   >
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody style={{ backgroundColor: 'var(--card-bg)', color: 'var(--card-text)' }}>
                 {filteredUsers.map((u) => (
-                  <tr key={u.id}>
+                  <tr key={u.id} style={{ borderColor: 'var(--border-color)' }}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10 bg-gray-100 rounded-full flex items-center justify-center">
-                          <FiUser className="h-6 w-6 text-gray-500" />
+                        <div className="flex-shrink-0 h-10 w-10 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--background)' }}>
+                          <FiUser className="h-6 w-6" style={{ color: 'var(--muted-text)' }} />
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{u.username}</div>
-                          <div className="text-sm text-gray-500">Joined {new Date(u.createdAt).toLocaleDateString()}</div>
+                          <div className="text-sm font-medium" style={{ color: 'var(--primary-text)' }}>{u.username}</div>
+                          <div className="text-sm" style={{ color: 'var(--secondary-text)' }}>Joined {new Date(u.createdAt).toLocaleDateString()}</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{u.email}</div>
+                      <div className="text-sm" style={{ color: 'var(--primary-text)' }}>{u.email}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {editingUserId === u.id ? (
                         <select
                           value={selectedRole}
                           onChange={handleRoleChange}
-                          className="border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                          className="border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                          style={{ 
+                            color: 'var(--input-text)', 
+                            backgroundColor: 'var(--input-bg)', 
+                            borderColor: 'var(--border-color)' 
+                          }}
                         >
                           <option value="admin">Admin</option>
                           <option value="editor">Editor</option>
                           <option value="viewer">Viewer</option>
                         </select>
                       ) : (
-                        <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getRoleBadgeClass(u.role)}`}>
-                          {u.role.charAt(0).toUpperCase() + u.role.slice(1)}
-                        </span>
+                        <RoleBadge role={u.role} />
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
