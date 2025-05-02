@@ -32,38 +32,59 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
     return date.toLocaleDateString();
   };
 
-  // Map file types to colors
+  // Map file types to colors with explicit dark mode support
   const getFileTypeColor = (fileType: string) => {
     const colorMap: Record<string, string> = {
-      pdf: 'bg-red-100 text-red-800',
-      docx: 'bg-blue-100 text-blue-800',
-      xlsx: 'bg-green-100 text-green-800',
+      pdf: 'border border-red-500 text-red-500',
+      docx: 'border border-blue-500 text-blue-500',
+      xlsx: 'border border-green-500 text-green-500',
     };
-    return colorMap[fileType] || 'bg-gray-100 text-gray-800';
+    return colorMap[fileType] || 'border border-gray-500 text-gray-500';
   };
 
   const fileTypeClass = getFileTypeColor(document.fileType);
 
+  // Custom card styles for dark mode compatibility
+  const cardStyle = {
+    backgroundColor: 'var(--card-bg)',
+    color: 'var(--card-text)',
+    border: '1px solid var(--border-color)',
+  };
+
+  // Text styles
+  const titleStyle = {
+    color: 'var(--primary-text)',
+    fontWeight: 'bold',
+  };
+
+  const metaStyle = {
+    color: 'var(--secondary-text)',
+  };
+
+  const contentStyle = {
+    color: 'var(--secondary-text)',
+  };
+
   return (
-    <Card hover className="h-full flex flex-col">
-      <div className="flex items-center mb-4">
+    <div className="h-full flex flex-col rounded-lg shadow overflow-hidden" style={cardStyle}>
+      <div className="flex items-center mb-4 p-4">
         <div className={`p-2 rounded ${fileTypeClass}`}>
           <FiFile size={24} />
         </div>
         <div className="ml-3">
-          <h3 className="text-lg font-medium text-gray-900">{document.title}</h3>
-          <p className="text-sm text-gray-500">
+          <h3 className="text-lg font-medium" style={titleStyle}>{document.title}</h3>
+          <p className="text-sm" style={metaStyle}>
             Uploaded by {document.uploadedBy} on {formatDate(document.createdAt)}
           </p>
         </div>
       </div>
       
-      <div className="text-sm text-gray-600 mb-4 overflow-hidden" style={{ maxHeight: '4.5rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
+      <div className="text-sm mb-4 px-4 overflow-hidden" style={{ maxHeight: '4.5rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', ...contentStyle }}>
         {document.content}
       </div>
       
-      <div className="mt-auto">
-        <div className="flex justify-between items-center text-xs text-gray-500 mb-3">
+      <div className="mt-auto p-4 border-t border-gray-200" style={{ borderColor: 'var(--border-color)' }}>
+        <div className="flex justify-between items-center text-xs mb-3" style={metaStyle}>
           <span className={`px-2 py-1 rounded ${fileTypeClass}`}>
             {document.fileType.toUpperCase()}
           </span>
@@ -74,7 +95,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
           <Button 
             size="sm" 
             variant="primary" 
-            className="flex-1 flex items-center justify-center"
+            className="flex-1 flex items-center justify-center view-btn"
             onClick={() => onView(document.id)}
           >
             View
@@ -85,8 +106,9 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
               <Button 
                 size="sm" 
                 variant="secondary" 
-                className="flex-1 flex items-center justify-center"
+                className="flex-1 flex items-center justify-center edit-btn"
                 onClick={() => onEdit(document.id)}
+                data-testid={`edit-document-${document.id}`}
               >
                 <FiEdit2 className="mr-1" /> Edit
               </Button>
@@ -94,7 +116,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
               <Button 
                 size="sm" 
                 variant="danger" 
-                className="flex items-center justify-center"
+                className="flex items-center justify-center delete-btn"
                 onClick={() => onDelete(document.id)}
               >
                 <FiTrash2 />
@@ -103,7 +125,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
           )}
         </div>
       </div>
-    </Card>
+    </div>
   );
 };
 
