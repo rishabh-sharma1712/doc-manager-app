@@ -47,6 +47,7 @@ export default function DocumentsPage() {
   };
 
   const handleEditDocument = (id: string) => {
+    if (!id) return;
     router.push(`/documents/${id}/edit`);
   };
 

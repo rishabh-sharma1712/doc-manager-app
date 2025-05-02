@@ -1,4 +1,5 @@
 import './globals.css'
+import '../styles/dashboard.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { AuthProvider } from '@/context/AuthContext'
@@ -9,7 +10,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Document Manager',
-  description: 'A document management application for organizing and accessing documents',
+  description: 'A modern document management system',
 }
 
 export default function RootLayout({

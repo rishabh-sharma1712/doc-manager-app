@@ -40,13 +40,46 @@ const Navbar: React.FC = () => {
     },
   ];
 
+  // Navbar specific styles for dark mode
+  const navbarStyle = {
+    backgroundColor: 'var(--card-bg)',
+    borderBottom: '1px solid var(--border-color)',
+    color: 'var(--primary-text)',
+  };
+
+  const brandStyle = {
+    color: 'var(--button-bg)',
+    fontWeight: 'bold',
+  };
+
+  const activeNavLinkStyle = {
+    backgroundColor: 'var(--button-bg)',
+    color: 'var(--button-text)',
+  };
+
+  const inactiveNavLinkStyle = {
+    color: 'var(--primary-text)',
+    ':hover': {
+      backgroundColor: 'var(--border-color)',
+    },
+  };
+
+  const usernameStyle = {
+    color: 'var(--secondary-text)',
+  };
+
+  const logoutStyle = {
+    color: 'var(--delete-button-text)',
+    backgroundColor: 'var(--delete-button-bg)',
+  };
+
   return (
-    <nav className="bg-white shadow">
+    <nav style={navbarStyle} className="shadow">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0 flex items-center">
-              <span className="text-blue-600 font-bold text-xl">DocManager</span>
+              <span style={brandStyle} className="font-bold text-xl">DocManager</span>
             </Link>
           </div>
 
@@ -59,11 +92,8 @@ const Navbar: React.FC = () => {
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`px-3 py-2 rounded-md text-sm font-medium ${
-                      link.active
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'text-gray-700 hover:bg-gray-100'
-                    }`}
+                    className={`px-3 py-2 rounded-md text-sm font-medium`}
+                    style={link.active ? activeNavLinkStyle : inactiveNavLinkStyle}
                   >
                     {link.name}
                   </Link>
@@ -73,25 +103,28 @@ const Navbar: React.FC = () => {
               <div className="ml-6 flex items-center">
                 <Link
                   href="/auth/login"
-                  className="px-4 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100"
+                  className="px-4 py-2 text-sm font-medium rounded-md"
+                  style={inactiveNavLinkStyle}
                 >
                   Login
                 </Link>
                 <Link
                   href="/auth/register"
-                  className="ml-2 px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                  className="ml-2 px-4 py-2 text-sm font-medium rounded-md"
+                  style={activeNavLinkStyle}
                 >
                   Register
                 </Link>
               </div>
             ) : (
               <div className="ml-6 flex items-center">
-                <span className="text-sm font-medium text-gray-700 mr-4">
+                <span className="text-sm font-medium mr-4" style={usernameStyle}>
                   {user?.username} ({user?.role})
                 </span>
                 <button
                   onClick={handleLogout}
-                  className="px-4 py-2 text-sm font-medium rounded-md text-red-700 hover:bg-red-100 flex items-center"
+                  className="px-4 py-2 text-sm font-medium rounded-md flex items-center"
+                  style={logoutStyle}
                 >
                   <FiLogOut className="mr-1" />
                   Logout
@@ -104,7 +137,8 @@ const Navbar: React.FC = () => {
           <div className="flex md:hidden">
             <button
               onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+              className="inline-flex items-center justify-center p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset"
+              style={{ color: 'var(--primary-text)' }}
               aria-expanded="false"
             >
               <span className="sr-only">Open main menu</span>
@@ -128,11 +162,8 @@ const Navbar: React.FC = () => {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    link.active
-                      ? 'bg-blue-100 text-blue-700'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`}
+                  className={`block px-3 py-2 rounded-md text-base font-medium`}
+                  style={link.active ? activeNavLinkStyle : inactiveNavLinkStyle}
                   onClick={closeMenu}
                 >
                   {link.name}
@@ -142,14 +173,16 @@ const Navbar: React.FC = () => {
               <>
                 <Link
                   href="/auth/login"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+                  className="block px-3 py-2 rounded-md text-base font-medium"
+                  style={inactiveNavLinkStyle}
                   onClick={closeMenu}
                 >
                   Login
                 </Link>
                 <Link
                   href="/auth/register"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700"
+                  className="block px-3 py-2 rounded-md text-base font-medium"
+                  style={activeNavLinkStyle}
                   onClick={closeMenu}
                 >
                   Register
@@ -157,12 +190,13 @@ const Navbar: React.FC = () => {
               </>
             ) : (
               <>
-                <div className="px-3 py-2 text-sm font-medium text-gray-700">
+                <div className="px-3 py-2 text-sm font-medium" style={usernameStyle}>
                   {user?.username} ({user?.role})
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-red-700 hover:bg-red-100"
+                  className="w-full text-left block px-3 py-2 rounded-md text-base font-medium"
+                  style={logoutStyle}
                 >
                   Logout
                 </button>

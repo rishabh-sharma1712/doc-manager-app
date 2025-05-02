@@ -32,6 +32,7 @@ export default function EditDocumentPage({ params: serverParams }: EditDocumentP
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
+    // Check authentication
     if (!authLoading && !isAuthenticated) {
       router.push('/auth/login');
       return;
@@ -46,15 +47,20 @@ export default function EditDocumentPage({ params: serverParams }: EditDocumentP
     const fetchDocument = async () => {
       if (!id) return;
       
-      const doc = await getDocument(id);
-      if (doc) {
-        setDocument(doc);
-        setFormData({
-          title: doc.title,
-          content: doc.content,
-        });
-      } else {
-        setError('Document not found or you do not have permission to edit it.');
+      try {
+        const doc = await getDocument(id);
+        if (doc) {
+          setDocument(doc);
+          setFormData({
+            title: doc.title,
+            content: doc.content,
+          });
+        } else {
+          setError('Document not found or you do not have permission to edit it.');
+        }
+      } catch (err) {
+        console.error("Error fetching document:", err);
+        setError('Failed to load document. Please try again.');
       }
     };
 
@@ -87,6 +93,7 @@ export default function EditDocumentPage({ params: serverParams }: EditDocumentP
         setError('Failed to update document.');
       }
     } catch (err) {
+      console.error("Error updating document:", err);
       setError('An error occurred while updating the document.');
     } finally {
       setIsSaving(false);

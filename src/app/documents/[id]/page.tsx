@@ -50,7 +50,7 @@ export default function DocumentPage({ params: serverParams }: DocumentPageProps
   }, [authLoading, isAuthenticated, id, router, getDocument]);
 
   const handleEdit = () => {
-    if (!id) return;
+    if (!id || !document) return;
     router.push(`/documents/${id}/edit`);
   };
 
