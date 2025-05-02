@@ -23,11 +23,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const baseClasses = 'inline-flex justify-center items-center border font-medium rounded-md focus:outline-none transition-colors';
     
+    // We'll keep these classes for structure but apply colors via inline styles
     const variantClasses = {
-      primary: 'bg-blue-600 hover:bg-blue-700 text-white border-transparent shadow-sm',
-      secondary: 'bg-white hover:bg-gray-50 text-gray-800 border-gray-300 shadow-sm',
-      danger: 'bg-red-600 hover:bg-red-700 text-white border-transparent shadow-sm',
-      ghost: 'bg-transparent hover:bg-gray-100 text-gray-800 border-transparent',
+      primary: 'border-transparent',
+      secondary: 'border-gray-300',
+      danger: 'border-transparent',
+      ghost: 'border-transparent',
     };
 
     const sizeClasses = {
@@ -40,11 +41,43 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const buttonClasses = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${widthClass} ${className}`;
 
+    // Get explicit button styles based on variant
+    const getButtonStyles = () => {
+      switch (variant) {
+        case 'primary':
+          return {
+            backgroundColor: 'var(--button-bg)',
+            color: 'var(--button-text)',
+          };
+        case 'secondary':
+          return {
+            backgroundColor: 'var(--input-bg)',
+            color: 'var(--primary-text)',
+            borderColor: 'var(--border-color)',
+          };
+        case 'danger':
+          return {
+            backgroundColor: 'var(--delete-button-bg)',
+            color: 'var(--delete-button-text)',
+          };
+        case 'ghost':
+          return {
+            backgroundColor: 'transparent',
+            color: 'var(--primary-text)',
+          };
+        default:
+          return {};
+      }
+    };
+
+    const buttonStyles = getButtonStyles();
+
     return (
       <button
         ref={ref}
         className={buttonClasses}
         disabled={isLoading || props.disabled}
+        style={buttonStyles}
         {...props}
       >
         {isLoading ? (

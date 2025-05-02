@@ -15,12 +15,15 @@ const Card: React.FC<CardProps> = ({
   className = '',
   hover = false,
 }) => {
-  const baseClasses = 'bg-white rounded-lg shadow-md overflow-hidden';
-  const hoverClasses = hover ? 'transition-all duration-200 hover:shadow-lg' : '';
+  const baseClasses = 'bg-white rounded-lg shadow overflow-hidden';
+  const hoverClasses = hover ? 'transition-all duration-200 hover:shadow-md' : '';
   const cardClasses = `${baseClasses} ${hoverClasses} ${className}`;
 
   return (
-    <div className={cardClasses}>
+    <div 
+      className={cardClasses} 
+      style={{ backgroundColor: 'var(--card-bg)' }}
+    >
       {title && (
         <div className="px-6 py-4 border-b border-gray-200">
           <h3 className="text-lg font-medium text-gray-900">{title}</h3>

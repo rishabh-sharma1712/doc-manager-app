@@ -8,7 +8,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, fullWidth = false, className = '', ...props }, ref) => {
-    const baseClasses = 'px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800';
+    const baseClasses = 'px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500';
     const errorClasses = error ? 'border-red-500' : 'border-gray-300';
     const widthClass = fullWidth ? 'w-full' : '';
     const inputClasses = `${baseClasses} ${errorClasses} ${widthClass} ${className}`;
@@ -16,13 +16,22 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={`mb-4 ${fullWidth ? 'w-full' : ''}`}>
         {label && (
-          <label className="block text-sm font-medium text-gray-800 mb-1">
+          <label className="block text-sm font-medium mb-1" style={{ color: 'var(--primary-text)' }}>
             {label}
           </label>
         )}
-        <input ref={ref} className={inputClasses} {...props} />
+        <input 
+          ref={ref} 
+          className={inputClasses} 
+          style={{ 
+            color: 'var(--input-text)', 
+            backgroundColor: 'var(--input-bg)',
+            borderColor: 'var(--border-color)'
+          }}
+          {...props} 
+        />
         {error && (
-          <p className="mt-1 text-sm text-red-600 font-medium">{error}</p>
+          <p className="mt-1 text-sm font-medium" style={{ color: '#ef4444' }}>{error}</p>
         )}
       </div>
     );

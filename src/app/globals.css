@@ -1,52 +1,149 @@
 @import "tailwindcss";
 
+/* Light mode - explicit colors */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --primary-text: #333333;
-  --secondary-text: #555555;
-  --muted-text: #666666;
-  --light-text: #888888;
+  --background: #f8f9fa;
+  --foreground: #212529;
+  --primary-text: #212529;
+  --secondary-text: #495057;
+  --muted-text: #6c757d;
+  --light-text: #adb5bd;
+  --input-text: #212529;
+  --input-bg: #ffffff;
+  --border-color: #dee2e6;
+  --card-bg: #ffffff;
+  --card-text: #212529;
+  --button-text: #ffffff;
+  --button-bg: #0d6efd;
+  --delete-button-bg: #dc3545;
+  --delete-button-text: #ffffff;
+  --view-button-bg: #0d6efd;
+  --view-button-text: #ffffff;
+  --edit-button-bg: #6c757d;
+  --edit-button-text: #ffffff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* Dark mode - explicit colors */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --primary-text: #ffffff;
-    --secondary-text: #dddddd;
-    --muted-text: #bbbbbb;
-    --light-text: #999999;
+    --background: #212529;
+    --foreground: #f8f9fa;
+    --primary-text: #f8f9fa;
+    --secondary-text: #e9ecef;
+    --muted-text: #ced4da;
+    --light-text: #adb5bd;
+    --input-text: #f8f9fa;
+    --input-bg: #343a40;
+    --border-color: #495057;
+    --card-bg: #343a40;
+    --card-text: #f8f9fa;
+    --button-text: #ffffff;
+    --button-bg: #0d6efd;
+    --delete-button-bg: #dc3545;
+    --delete-button-text: #ffffff;
+    --view-button-bg: #0d6efd;
+    --view-button-text: #ffffff;
+    --edit-button-bg: #6c757d;
+    --edit-button-text: #ffffff;
   }
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Override Tailwind text colors for better visibility */
-.text-gray-500 {
-  color: var(--muted-text) !important;
+/* Make all clickable elements show a pointer cursor */
+button, 
+[role="button"],
+a,
+.view-link,
+input[type="submit"],
+input[type="button"],
+select,
+.cursor-pointer {
+  cursor: pointer;
 }
 
-.text-gray-600 {
+/* Force explicit colors for document cards */
+.bg-white {
+  background-color: var(--card-bg) !important;
+  color: var(--card-text) !important;
+}
+
+/* Text color overrides */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--primary-text) !important;
+}
+
+p, span:not(.role-badge), li {
   color: var(--secondary-text) !important;
 }
 
-.text-gray-700 {
+/* Role badge specific styling */
+.role-badge {
+  color: white !important;
+}
+
+/* Form element explicit styles */
+input, select, textarea {
+  color: var(--input-text) !important;
+  background-color: var(--input-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Button colors */
+.bg-blue-600 {
+  background-color: var(--button-bg) !important;
+  color: var(--button-text) !important;
+}
+
+/* View button */
+[class*="View"] {
+  background-color: var(--view-button-bg) !important;
+  color: var(--view-button-text) !important;
+}
+
+/* Edit button */
+[class*="Edit"] {
+  background-color: var(--edit-button-bg) !important;
+  color: var(--edit-button-text) !important;
+}
+
+/* Document cards */
+.bg-gray-50, .bg-gray-100 {
+  background-color: var(--card-bg) !important;
+}
+
+/* PDF, DOCX, XLSX type labels */
+.text-red-800, .text-blue-800, .text-green-800 {
   color: var(--primary-text) !important;
 }
 
-/* Ensure form elements have good contrast */
-input, select, textarea {
+.bg-red-100, .bg-blue-100, .bg-green-100 {
+  background-color: var(--card-bg) !important;
+  color: var(--card-text) !important;
+}
+
+/* Search input */
+input[type="text"], input[type="search"] {
+  color: var(--input-text) !important;
+  background-color: var(--input-bg) !important;
+}
+
+/* File labels */
+.px-2.py-1.rounded {
   color: var(--primary-text) !important;
+  border: 1px solid var(--border-color);
+}
+
+/* Force all text to be visible */
+*:not(.role-badge) {
+  color: var(--primary-text);
+}
+
+/* Ensure role badges have white text */
+.role-badge {
+  color: white !important;
 }
