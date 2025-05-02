@@ -83,7 +83,7 @@ export function DocumentProvider({ children }: { children: React.ReactNode }) {
       const response = await mockCreateDocument(data, user.id, user.username);
       
       if (response.success && response.data) {
-        setDocuments(prevDocs => [...prevDocs, response.data!]);
+        await getDocuments();
         return response.data;
       } else {
         setError(response.message || 'Failed to create document');
